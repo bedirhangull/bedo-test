@@ -13,45 +13,27 @@ export interface AuthPageParams {
 
 const i18n = {
   en: {
-    title: "Authorize – HrPanda MCP",
+    title: "Authorize – bedirhan-test",
     heading: "Authorize Connection",
     subtitle:
-      "An application is requesting access to your HrPanda workspace via MCP. Enter your MCP token to authorize.",
-    tokenLabel: "MCP Token",
-    tokenPlaceholder: "mcp_xxxxxxxxxxxxxxxx",
-    helpPrefix: "Generate a token in",
-    helpLink: "HrPanda Settings → MCP Tokens",
+      "Enter your token to connect this application via MCP.",
+    tokenLabel: "Token",
+    tokenPlaceholder: "your-token-here",
     cancel: "Cancel",
     authorize: "Authorize",
-    howItWorks: "How it works",
-    firstTime: "First time?",
-    step1: "Go to",
-    step1Link: "HrPanda Settings",
-    step2: "Generate a new MCP token",
-    step3prefix: "Paste it above and click",
-    step3bold: "Authorize",
-    errorEmpty: "Please enter your MCP token.",
+    errorEmpty: "Please enter your token.",
     langSwitch: "Türkçe",
   },
   tr: {
-    title: "Yetkilendir – HrPanda MCP",
+    title: "Yetkilendir – bedirhan-test",
     heading: "Bağlantıyı Yetkilendir",
     subtitle:
-      "Bir uygulama, HrPanda çalışma alanınıza MCP üzerinden erişim talep ediyor. Yetkilendirmek için MCP tokeninizi girin.",
-    tokenLabel: "MCP Token",
-    tokenPlaceholder: "mcp_xxxxxxxxxxxxxxxx",
-    helpPrefix: "Token oluşturmak için",
-    helpLink: "HrPanda Ayarlar → MCP Tokenları",
+      "Bu uygulamayı MCP üzerinden bağlamak için tokeninizi girin.",
+    tokenLabel: "Token",
+    tokenPlaceholder: "tokeninizi-girin",
     cancel: "İptal",
     authorize: "Yetkilendir",
-    howItWorks: "Nasıl çalışır",
-    firstTime: "İlk defa mı?",
-    step1: "Şuraya gidin:",
-    step1Link: "HrPanda Ayarlar",
-    step2: "Yeni bir MCP token oluşturun",
-    step3prefix: "Yukarıya yapıştırın ve",
-    step3bold: "Yetkilendir",
-    errorEmpty: "Lütfen MCP tokeninizi girin.",
+    errorEmpty: "Lütfen tokeninizi girin.",
     langSwitch: "English",
   },
 } as const;
@@ -105,20 +87,20 @@ export function getAuthorizationPageHtml(p: AuthPageParams): string {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      max-width: 420px;
+      max-width: 380px;
       width: 100%;
-      padding: 40px 32px;
+      padding: 36px 28px;
       position: relative;
     }
     .lang-switch {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      font-size: 12px;
+      top: 14px;
+      right: 14px;
+      font-size: 11px;
       color: #6366f1;
       text-decoration: none;
       font-weight: 500;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 6px;
       border: 1px solid #e2e8f0;
       transition: all 0.15s;
@@ -127,13 +109,14 @@ export function getAuthorizationPageHtml(p: AuthPageParams): string {
       background: #f0f4ff;
       border-color: #6366f1;
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
+    .name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
-    .logo img { height: 32px; }
     h1 {
       font-size: 18px;
       font-weight: 600;
@@ -175,14 +158,6 @@ export function getAuthorizationPageHtml(p: AuthPageParams): string {
       border-color: #6366f1;
       box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
     }
-    .help {
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: 6px;
-      line-height: 1.5;
-    }
-    .help a { color: #6366f1; text-decoration: none; }
-    .help a:hover { text-decoration: underline; }
     .actions {
       display: flex;
       gap: 10px;
@@ -202,42 +177,13 @@ export function getAuthorizationPageHtml(p: AuthPageParams): string {
     .btn-primary:hover { background: #4f46e5; }
     .btn-cancel { background: #f1f5f9; color: #475569; }
     .btn-cancel:hover { background: #e2e8f0; }
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0 16px;
-      font-size: 12px;
-      color: #94a3b8;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #e2e8f0;
-    }
-    .info-box {
-      background: #f0f4ff;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 13px;
-      color: #475569;
-      line-height: 1.6;
-    }
-    .info-box strong { color: #1a1a2e; }
-    .steps { padding-left: 18px; margin-top: 6px; }
-    .steps li { margin-bottom: 2px; }
-    .steps a { color: #6366f1; text-decoration: none; }
-    .steps a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <div class="card">
     <a href="${esc(switchUrl)}" class="lang-switch">${esc(t.langSwitch)}</a>
 
-    <div class="logo">
-      <img src="${esc(p.baseUrl)}/assets/logo.png" alt="HrPanda">
-    </div>
+    <div class="name">bedirhan-test</div>
 
     <h1>${esc(t.heading)}</h1>
     <p class="subtitle">${esc(t.subtitle)}</p>
@@ -253,26 +199,12 @@ export function getAuthorizationPageHtml(p: AuthPageParams): string {
 
       <label for="token">${esc(t.tokenLabel)}</label>
       <input type="password" id="token" name="token" placeholder="${esc(t.tokenPlaceholder)}" required autofocus>
-      <p class="help">
-        ${esc(t.helpPrefix)}
-        <a href="${esc(p.dashboardUrl)}/dashboard/settings" target="_blank">${esc(t.helpLink)}</a>
-      </p>
 
       <div class="actions">
         <button type="button" class="btn btn-cancel" onclick="window.close()">${esc(t.cancel)}</button>
         <button type="submit" class="btn btn-primary">${esc(t.authorize)}</button>
       </div>
     </form>
-
-    <div class="divider">${esc(t.howItWorks)}</div>
-    <div class="info-box">
-      <strong>${esc(t.firstTime)}</strong>
-      <ol class="steps">
-        <li>${esc(t.step1)} <a href="${esc(p.dashboardUrl)}/dashboard/settings" target="_blank">${esc(t.step1Link)}</a></li>
-        <li>${esc(t.step2)}</li>
-        <li>${esc(t.step3prefix)} <strong>${esc(t.step3bold)}</strong></li>
-      </ol>
-    </div>
   </div>
 </body>
 </html>`;

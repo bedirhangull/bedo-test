@@ -17,6 +17,7 @@ const __dirname = nodePath.dirname(fileURLToPath(import.meta.url));
 const LOGO_PATH = nodePath.resolve(__dirname, "../public/logo.png");
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3100;
+const BASE_URL = process.env.MCP_BASE_URL ?? `http://localhost:${PORT}`;
 
 const httpServer = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
@@ -70,18 +71,21 @@ const httpServer = http.createServer(async (req, res) => {
     return;
   }
 
-  // ── MCP endpoint ─────────────────────────────────────────────────
+  // ── MCP endpoint (POST /mcp and POST /) ───────────────────────
 
-  if (req.method === "POST" && pathname === "/mcp") {
+  if (req.method === "POST" && (pathname === "/mcp" || pathname === "/")) {
     const authHeader = req.headers["authorization"] ?? "";
     const token = authHeader.startsWith("Bearer ")
       ? authHeader.slice(7).trim()
       : null;
 
     if (!token) {
-      res.writeHead(401, { "Content-Type": "application/json" }).end(
-        JSON.stringify({ error: "Missing Authorization header" }),
-      );
+      res
+        .writeHead(401, {
+          "Content-Type": "application/json",
+          "WWW-Authenticate": `Bearer resource_metadata="${BASE_URL}/.well-known/oauth-protected-resource"`,
+        })
+        .end(JSON.stringify({ error: "Unauthorized" }));
       return;
     }
 
@@ -102,6 +106,17 @@ const httpServer = http.createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" }).end(
       JSON.stringify({ status: "ok", server: "bedo-test-mcp", version: "0.1.0" }),
     );
+    return;
+  }
+
+  // Any other unmatched GET also returns 401 with discovery header
+  if (req.method === "GET" || req.method === "DELETE") {
+    res
+      .writeHead(401, {
+        "Content-Type": "application/json",
+        "WWW-Authenticate": `Bearer resource_metadata="${BASE_URL}/.well-known/oauth-protected-resource"`,
+      })
+      .end(JSON.stringify({ error: "Unauthorized" }));
     return;
   }
 
